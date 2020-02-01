@@ -1,6 +1,6 @@
 {
   "name": "miniprogram-api-typings",
-  "version": "2.9.1",
+  "version": "2.10.1",
   "description": "Type definitions for APIs of Wechat Mini Program in TypeScript",
   "main": "./index.d.ts",
   "types": "./index.d.ts",
@@ -21,7 +21,7 @@
   "homepage": "https://github.com/wechat-miniprogram/api-typings#readme",
   "dependencies": {},
   "devDependencies": {
-    "tsd": "^0.9.0",
+    "tsd": "^0.11.0",
     "tslint": "^5.20.0",
     "typescript": "^3.5.3"
   },

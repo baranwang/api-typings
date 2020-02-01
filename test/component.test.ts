@@ -256,3 +256,133 @@ expectError(
     },
   }),
 )
+
+Component({
+  options: {
+    pureDataPattern: /^_/,
+  },
+  data: {
+    a: true, // 普通数据字段
+    _b: true, // 纯数据字段
+  },
+  methods: {
+    myMethod() {
+      this.data._b // 纯数据字段可以在 this.data 中获取
+      this.setData({
+        c: true, // 普通数据字段
+        _d: true, // 纯数据字段
+      })
+    },
+  },
+})
+
+Component({
+  properties: {
+    a: {
+      type: Number,
+      observer: 'onAChange',
+      value: 1,
+    },
+  },
+  methods: {
+    onAChange() {},
+  },
+})
+
+Component({
+  methods: {
+    animate() {
+      this.animate(
+        '#container',
+        [
+          { opacity: 1.0, rotate: 0, backgroundColor: '#FF0000' },
+          { opacity: 0.5, rotate: 45, backgroundColor: '#00FF00' },
+          { opacity: 0.0, rotate: 90, backgroundColor: '#FF0000' },
+        ],
+        5000,
+        () => {
+          this.clearAnimation(
+            '#container',
+            { opacity: true, rotate: true },
+            function() {
+              console.log('清除了#container上的opacity和rotate属性')
+            },
+          )
+        },
+      )
+
+      this.animate(
+        '.block',
+        [
+          { scale: [1, 1], rotate: 0, ease: 'ease-out' },
+          { scale: [1.5, 1.5], rotate: 45, ease: 'ease-in', offset: 0.9 },
+          { scale: [2, 2], rotate: 90 },
+        ],
+        5000,
+        () => {
+          this.clearAnimation('.block', function() {
+            console.log('清除了.block上的所有动画属性')
+          })
+        },
+      )
+    },
+  },
+})
+
+Component({
+  methods: {
+    animate() {
+      this.animate(
+        '.avatar',
+        [
+          {
+            borderRadius: '0',
+            borderColor: 'red',
+            transform: 'scale(1) translateY(-20px)',
+            offset: 0,
+          },
+          {
+            borderRadius: '25%',
+            borderColor: 'blue',
+            transform: 'scale(.65) translateY(-20px)',
+            offset: 0.5,
+          },
+          {
+            borderRadius: '50%',
+            borderColor: 'blue',
+            transform: `scale(.3) translateY(-20px)`,
+            offset: 1,
+          },
+        ],
+        2000,
+        {
+          scrollSource: '#scroller',
+          timeRange: 2000,
+          startScrollOffset: 0,
+          endScrollOffset: 85,
+        },
+      )
+
+      this.animate(
+        '.search_input',
+        [
+          {
+            opacity: '0',
+            width: '0%',
+          },
+          {
+            opacity: '1',
+            width: '100%',
+          },
+        ],
+        1000,
+        {
+          scrollSource: '#scroller',
+          timeRange: 1000,
+          startScrollOffset: 120,
+          endScrollOffset: 252,
+        },
+      )
+    },
+  },
+})

@@ -184,3 +184,87 @@ wx.request({
     },
   })
 }
+
+// https://github.com/wechat-miniprogram/api-typings/issues/85
+{
+  Behavior({
+    observers: {
+      value(v) {
+        expectType<any>(v)
+      },
+    },
+  })
+}
+
+// https://github.com/wechat-miniprogram/api-typings/issues/87
+import WX = WechatMiniprogram
+{
+  type ILoginResult = WX.LoginSuccessCallbackResult
+  const t: ILoginResult = { code: '', errMsg: '' }
+  expectType<WechatMiniprogram.LoginSuccessCallbackResult>(t)
+}
+
+// https://github.com/wechat-miniprogram/api-typings/issues/88
+{
+  wx.canvasToTempFilePath({ canvas: '#canvas' })
+  wx.canvasToTempFilePath({ canvasId: '' })
+  wx.canvasToTempFilePath({ canvas: '', quality: 0.5 })
+}
+
+// https://github.com/wechat-miniprogram/api-typings/issues/89
+{
+  const udp = wx.createUDPSocket()
+  const port = udp.bind()
+  expectType<number>(port)
+}
+
+// https://github.com/wechat-miniprogram/api-typings/issues/91
+{
+  expectType<Record<string, any>>(wx.getExtConfigSync())
+  wx.getExtConfig({
+    success(res) {
+      expectType<Record<string, any>>(res.extConfig)
+    },
+  })
+}
+
+// https://github.com/wechat-miniprogram/api-typings/issues/95
+{
+  Page({
+    ctx: {} as WechatMiniprogram.CameraContext,
+    onLoad() {
+      this.ctx = wx.createCameraContext()
+    },
+    takePhoto() {
+      this.ctx.takePhoto({
+        quality: 'high',
+        success: res => {
+          expectType<string>(res.tempImagePath)
+          this.setData({
+            src: res.tempImagePath,
+          })
+        },
+      })
+    },
+    startRecord() {
+      this.ctx.startRecord({
+        success: res => {
+          expectType<string>(res.errMsg)
+          console.log('startRecord')
+        },
+      })
+    },
+    stopRecord() {
+      this.ctx.stopRecord({
+        success: res => {
+          expectType<string>(res.tempThumbPath)
+          expectType<string>(res.tempVideoPath)
+          this.setData({
+            src: res.tempThumbPath,
+            videoSrc: res.tempVideoPath,
+          })
+        },
+      })
+    },
+  })
+}

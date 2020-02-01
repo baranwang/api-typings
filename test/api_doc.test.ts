@@ -933,10 +933,9 @@ import { expectType } from 'tsd'
 {
   wx.getSetting({
     success(res) {
-      res.authSetting = {
-        'scope.userInfo': true,
-        'scope.userLocation': true,
-      }
+      expectType<boolean | undefined>(res.authSetting['scope.address'])
+      expectType<boolean>(res.subscriptionsSetting.mainSwitch)
+      expectType<Record<string, any>>(res.subscriptionsSetting.itemSettings)
     },
   })
 }
@@ -3040,4 +3039,28 @@ import { expectType } from 'tsd'
       expectType<string>(res.TEMPLATE_ID)
     },
   })
+}
+
+// Test case from `wx.chooseMedia`
+{
+  wx.chooseMedia({
+    count: 9,
+    mediaType: ['image', 'video'],
+    sourceType: ['album', 'camera'],
+    maxDuration: 30,
+    camera: 'back',
+    success(res) {
+      expectType<string>(res.tempFiles[0].tempFilePath)
+      expectType<string>(res.tempFiles[0].thumbTempFilePath)
+      expectType<number>(res.tempFiles[0].width)
+      expectType<number>(res.tempFiles[0].height)
+      expectType<number>(res.tempFiles[0].size)
+      expectType<number>(res.tempFiles[0].duration)
+    },
+  })
+}
+
+// Test case from `wx.reportPerformance`
+{
+  wx.reportPerformance(1101, 680)
 }
